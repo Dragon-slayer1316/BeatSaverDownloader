@@ -21,7 +21,6 @@ namespace BeatSaverDownloader.Misc
             _packName = _playlist.playlistTitle;
             _coverImage = _playlist.icon;
             _packID = $"Playlist_{playlist.playlistTitle}_{playlist.playlistAuthor}";
-            _isPackAlwaysOwned = false;
 
             PlaylistsCollection.MatchSongsForPlaylist(playlist);
 

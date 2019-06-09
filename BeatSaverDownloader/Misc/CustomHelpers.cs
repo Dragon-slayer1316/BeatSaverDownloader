@@ -37,7 +37,7 @@ namespace BeatSaverDownloader.Misc
             pack.SetPrivateField("_packName", string.IsNullOrEmpty(packName) ? "Custom Songs" : packName);
             pack.SetPrivateField("_coverImage", packCover ?? Sprites.BeastSaberLogo);
             pack.SetPrivateField("_packID", string.IsNullOrEmpty(packID) ? "" : packID);
-            pack.SetPrivateField("_isPackAlwaysOwned", true);
+       //     pack.SetPrivateField("_isPackAlwaysOwned", true);
 
             return pack;
         }
