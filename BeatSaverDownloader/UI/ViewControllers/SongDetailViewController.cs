@@ -13,7 +13,7 @@ using HMUI;
 
 namespace BeatSaverDownloader.UI.ViewControllers
 {
-    enum DownloadState { Downloaded, Downloading, NotDownloaded};
+    enum DownloadState { Downloaded, Downloading, NotDownloaded };
 
     class SongDetailViewController : VRUIViewController
     {
@@ -27,6 +27,9 @@ namespace BeatSaverDownloader.UI.ViewControllers
         private TextMeshProUGUI difficulty1Text;
         private TextMeshProUGUI difficulty2Text;
         private TextMeshProUGUI difficulty3Text;
+        private TextMeshProUGUI difficulty1Title;
+        private TextMeshProUGUI difficulty2Title;
+        private TextMeshProUGUI difficulty3Title;
 
         private TextMeshProUGUI downloadsText;
         private TextMeshProUGUI playsText;
@@ -90,12 +93,12 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
                     Destroy(hint);
                 }
-                
+
                 RectTransform yourStats = GetComponentsInChildren<RectTransform>().First(x => x.name == "Stats");
                 yourStats.gameObject.SetActive(true);
-                
+
                 TextMeshProUGUI[] _textComponents = GetComponentsInChildren<TextMeshProUGUI>();
-                
+
                 try
                 {
                     songNameText = _textComponents.First(x => x.name == "SongNameText");
@@ -105,14 +108,18 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
                     playsText = _textComponents.First(x => x.name == "ValueText" && x.transform.parent.name == "BPM");
                     playsText.fontSize = 3f;
-                    
-                    _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "MaxRank").text = "Expert/+";
+                    foreach (var x in _textComponents)
+                    {
+                        Console.WriteLine(x.name);
+                        Console.WriteLine(x.transform.parent.name);
+                    }
+                    difficulty1Title = _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "MaxRank"); //.text = "Expert/+";
                     difficulty1Text = _textComponents.First(x => x.name == "Value" && x.transform.parent.name == "MaxRank");
 
-                    _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "Highscore").text = "Hard";
+                    difficulty2Title = _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "Highscore");//.text = "Hard";
                     difficulty2Text = _textComponents.First(x => x.name == "Value" && x.transform.parent.name == "Highscore");
 
-                    _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "MaxCombo").text = "Easy/Normal";
+                    difficulty3Title = _textComponents.First(x => x.name == "Title" && x.transform.parent.name == "MaxCombo");//.text = "Easy/Normal";
                     difficulty3Text = _textComponents.First(x => x.name == "Value" && x.transform.parent.name == "MaxCombo");
                 }
                 catch (Exception e)
@@ -164,18 +171,34 @@ namespace BeatSaverDownloader.UI.ViewControllers
             _levelParams.obstaclesCount = int.Parse(_currentSong.upvotes);
             _levelParams.bombsCount = int.Parse(_currentSong.downvotes);
 
+            Polyglot.LocalizedTextMeshProUGUI localizer1 = difficulty1Title.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer1 != null)
+                GameObject.Destroy(localizer1);
+            Polyglot.LocalizedTextMeshProUGUI localizer2 = difficulty2Title.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer2 != null)
+                GameObject.Destroy(localizer2);
+            Polyglot.LocalizedTextMeshProUGUI localizer3 = difficulty3Title.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer3 != null)
+                GameObject.Destroy(localizer3);
+            difficulty1Title.text = "Expert/+";
+            difficulty2Title.text = "Hard";
+            difficulty3Title.text = "Easy/Normal";
+
+
+
+
             difficulty1Text.text = (_currentSong.difficultyLevels.Where(x => (x.difficulty == "Expert" || x.difficulty == "ExpertPlus")).Count() > 0) ? "Yes" : "No";
             difficulty2Text.text = (_currentSong.difficultyLevels.Where(x => x.difficulty == "Hard").Count() > 0) ? "Yes" : "No";
             difficulty3Text.text = (_currentSong.difficultyLevels.Where(x => (x.difficulty == "Easy" || x.difficulty == "Normal")).Count() > 0) ? "Yes" : "No";
 
-            StartCoroutine(LoadScripts.LoadSpriteCoroutine(_currentSong.coverUrl, (cover) => { coverImage.texture = cover.texture;}));
+            StartCoroutine(LoadScripts.LoadSpriteCoroutine(_currentSong.coverUrl, (cover) => { coverImage.texture = cover.texture; }));
 
             SetFavoriteState(PluginConfig.favoriteSongs.Any(x => x.Contains(_currentSong.hash)));
             SetDownloadState((SongDownloader.Instance.IsSongDownloaded(_currentSong) ? DownloadState.Downloaded : (sender.IsDownloadingSong(_currentSong) ? DownloadState.Downloading : DownloadState.NotDownloaded)));
         }
 
 
-        public void SetLoadingState(bool isLoading) 
+        public void SetLoadingState(bool isLoading)
         {
             if (isLoading)
             {
@@ -214,3 +237,4 @@ namespace BeatSaverDownloader.UI.ViewControllers
         }
     }
 }
+
