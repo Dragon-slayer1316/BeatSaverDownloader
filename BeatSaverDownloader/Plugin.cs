@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BS_Utils.Gameplay;
 using IPA;
-
+using BeatSaverDownloader.UI;
 namespace BeatSaverDownloader
 {
     public class Plugin : IBeatSaberPlugin
@@ -28,20 +28,25 @@ namespace BeatSaverDownloader
             instance = this;
             PluginConfig.LoadConfig();
             Sprites.ConvertToSprites();
-
+            CustomUI.Utilities.BSEvents.menuSceneLoadedFresh += BSEvents_menuSceneLoadedFresh;
         }
 
-        private void OnMenuSceneLoadedFresh()
+        private void BSEvents_menuSceneLoadedFresh()
         {
             try
             {
-
+                PluginUI.OnLoad();
                 GetUserInfo.GetUserName();
             }
             catch (Exception e)
             {
                 Plugin.log.Critical("Exception on fresh menu scene change: " + e);
             }
+        }
+
+        private void OnMenuSceneLoadedFresh()
+        {
+
         }
 
         
@@ -53,6 +58,10 @@ namespace BeatSaverDownloader
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
+            if(scene.name == "MenuCore")
+            {
+
+            }
         }
 
         public void OnSceneUnloaded(Scene scene)
