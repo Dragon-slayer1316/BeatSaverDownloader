@@ -31,6 +31,7 @@ namespace BeatSaverDownloader
             CustomUI.Utilities.BSEvents.menuSceneLoadedFresh += BSEvents_menuSceneLoadedFresh;
         }
 
+
         private void BSEvents_menuSceneLoadedFresh()
         {
             try

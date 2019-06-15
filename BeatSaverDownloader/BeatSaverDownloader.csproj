@@ -124,8 +124,13 @@
     <Compile Include="Misc\PluginConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionUtil.cs" />
-    <Compile Include="UI\MoreSongsUI.cs" />
+    <Compile Include="UI\MoreSongsFlowCoordinator.cs" />
     <Compile Include="UI\PluginUI.cs" />
+    <Compile Include="UI\UIElements\DownloadQueueTableCell.cs" />
+    <Compile Include="UI\UIElements\TextMeshProHyperlinkHandler.cs" />
+    <Compile Include="UI\ViewControllers\BackButtonNavigationController.cs" />
+    <Compile Include="UI\ViewControllers\DownloadQueueViewController.cs" />
+    <Compile Include="UI\ViewControllers\SongDescriptionViewController.cs" />
     <Compile Include="UI\ViewControllers\SongDetailViewController.cs" />
     <Compile Include="UI\ViewControllers\MoreSongsListViewController.cs" />
   </ItemGroup>

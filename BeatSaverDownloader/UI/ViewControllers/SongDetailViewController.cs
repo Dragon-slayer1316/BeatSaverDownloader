@@ -6,16 +6,19 @@ using TMPro;
 using UnityEngine;
 using VRUI;
 using UnityEngine.UI;
-using BeatSaverDownloader.UI.ViewControllers;
+using BeatSaverDownloader.UI;
 using CustomUI.BeatSaber;
 using HMUI;
+
 namespace BeatSaverDownloader.UI.ViewControllers
 {
     enum DownloadState { Downloaded, Downloading, NotDownloaded };
 
-    class SongDetailViewController : CustomViewController
+    class SongDetailViewController : VRUIViewController
     {
         public event Action<Song> downloadButtonPressed;
+        public event Action<Song> favoriteButtonPressed;
+
         private Song _currentSong;
 
         private TextMeshProUGUI songNameText;
@@ -36,10 +39,14 @@ namespace BeatSaverDownloader.UI.ViewControllers
         private StandardLevelDetailView _levelDetails;
 
         private Button _downloadButton;
-        private Button _favoriteButton;
 
         private GameObject _loadingIndicator;
 
+        //Time      - Downloads
+        //BPM       - Plays
+        //Notes     - BPM
+        //Obstacles - Upvotes
+        //Bombs     - Downvotes
 
         protected override void DidActivate(bool firstActivation, ActivationType type)
         {
@@ -48,7 +55,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
                 gameObject.SetActive(true);
                 _levelDetails = GetComponentsInChildren<StandardLevelDetailView>(true).First(x => x.name == "LevelDetail");
                 _levelDetails.gameObject.SetActive(true);
-
+                (_levelDetails.transform as RectTransform).anchoredPosition = new Vector2(-40, 0);
                 BeatmapDifficultySegmentedControlController beatmapDifficultySegmentedControl = GetComponentsInChildren<BeatmapDifficultySegmentedControlController>(true).First(x => x.name == "BeatmapDifficultySegmentedControl");
                 beatmapDifficultySegmentedControl.gameObject.SetActive(false);
 
@@ -117,6 +124,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
                 {
                     Plugin.log.Critical("Unable to convert detail view controller! Exception:  " + e);
                 }
+                _levelDetails.practiceButton.gameObject.SetActive(false);
 
                 _downloadButton = _levelDetails.playButton;
                 _downloadButton.SetButtonText("DOWNLOAD");
@@ -130,7 +138,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
                 _loadingIndicator = BeatSaberUI.CreateLoadingSpinner(rectTransform);
                 (_loadingIndicator.transform as RectTransform).anchorMin = new Vector2(0.5f, 0.5f);
                 (_loadingIndicator.transform as RectTransform).anchorMax = new Vector2(0.5f, 0.5f);
-                (_loadingIndicator.transform as RectTransform).anchoredPosition = new Vector2(0f, 0f);
+                (_loadingIndicator.transform as RectTransform).anchoredPosition = new Vector2(-40f, 0f);
             }
         }
 
@@ -141,7 +149,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
             _downloadButton.interactable = state != DownloadState.Downloading;
         }
 
-        public void SetContent(MoreSongsUI sender, Song newSongInfo)
+        public void SetContent(MoreSongsFlowCoordinator sender, Song newSongInfo)
         {
             _currentSong = newSongInfo;
 
@@ -175,7 +183,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
             StartCoroutine(LoadScripts.LoadSpriteCoroutine(_currentSong.coverURL, (cover) => { coverImage.texture = cover.texture; }));
 
-        //    SetDownloadState((SongDownloader.Instance.IsSongDownloaded(_currentSong) ? DownloadState.Downloaded : (sender.IsDownloadingSong(_currentSong) ? DownloadState.Downloading : DownloadState.NotDownloaded)));
+//            SetDownloadState((SongDownloader.Instance.IsSongDownloaded(_currentSong) ? DownloadState.Downloaded : (sender.IsDownloadingSong(_currentSong) ? DownloadState.Downloading : DownloadState.NotDownloaded)));
         }
 
 
@@ -217,8 +225,4 @@ namespace BeatSaverDownloader.UI.ViewControllers
             }
         }
     }
-
-
-
 }
-

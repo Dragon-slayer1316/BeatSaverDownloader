@@ -46,7 +46,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
         private bool initialized = false;
 
-        private float _offset = 0f;
+        private float _offset = 25f;
         private bool _fixedOffset;
         public override void __Activate(ActivationType activationType)
         {
@@ -162,10 +162,10 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
         private void CreateButtons()
         {
-            _sortByButton = BeatSaberUI.CreateUIButton(rectTransform, _mainButton, new Vector2(35f, 36.5f), new Vector2(30f, 6f), () => { SelectTopButtons(TopButtonsState.SortBy); }, "Sort by");
+            _sortByButton = BeatSaberUI.CreateUIButton(rectTransform, _mainButton, new Vector2(15f, 36.5f), new Vector2(30f, 6f), () => { SelectTopButtons(TopButtonsState.SortBy); }, "Sort by");
             _sortByButton.SetButtonTextSize(3f);
 
-            _searchButton = BeatSaberUI.CreateUIButton(rectTransform, _mainButton, new Vector2(-35, 36.5f), new Vector2(30f, 6f), () =>
+            _searchButton = BeatSaberUI.CreateUIButton(rectTransform, _mainButton, new Vector2(-15, 36.5f), new Vector2(30f, 6f), () =>
             {
                 SearchButtonPressed?.Invoke();
                 SelectTopButtons(TopButtonsState.Search);
@@ -277,7 +277,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
         }
         public override int NumberOfCells()
         {
-            return Math.Min(songsList.Count, MoreSongsUI.songsPerPage);
+            return Math.Min(songsList.Count, MoreSongsFlowCoordinator.songsPerPage);
         }
         new private void DidSelectRowEvent(TableView sender, int row)
         {

@@ -14,8 +14,8 @@ namespace BeatSaverDownloader.UI
     public class PluginUI : MonoBehaviour
     {
         public static PluginUI Instance;
-
-
+        private MenuButton _moreSongsButton;
+        public MoreSongsFlowCoordinator moreSongsFlowCoordinator;
         internal static void OnLoad()
         {
             if (Instance != null)
@@ -36,12 +36,31 @@ namespace BeatSaverDownloader.UI
 
         private void HandleMenuSceneLoadedFresh()
         {
-            MoreSongsUI.OnLoad();
-            MenuButtonUI.AddButton("More Songs", delegate () { MoreSongsUI.Instance.moreSongsMenu.Present(); MoreSongsUI.Instance.InitSongList();  });
+
+            _moreSongsButton = MenuButtonUI.AddButton("More songs", "Download more songs from BeatSaver.com!", BeatSaverButtonPressed);
+            _moreSongsButton.interactable = SongCore.Loader.AreSongsLoaded;
+
+            if (!SongCore.Loader.AreSongsLoaded)
+                SongCore.Loader.SongsLoadedEvent += SongLoader_SongsLoadedEvent;
+            else
+                SongLoader_SongsLoadedEvent(null, SongCore.Loader.CustomLevels);
         }
 
+        public void BeatSaverButtonPressed()
+        {
+            if (moreSongsFlowCoordinator == null)
+                moreSongsFlowCoordinator = new GameObject("MoreSongsFlowCoordinator").AddComponent<MoreSongsFlowCoordinator>();
 
+            MainFlowCoordinator mainFlow = Resources.FindObjectsOfTypeAll<MainFlowCoordinator>().First();
 
+            mainFlow.InvokeMethod("PresentFlowCoordinator", moreSongsFlowCoordinator, null, false, false);
+        }
+
+        private void SongLoader_SongsLoadedEvent(SongCore.Loader arg1, Dictionary<string, CustomPreviewBeatmapLevel> arg2)
+        {
+            SongCore.Loader.SongsLoadedEvent -= SongLoader_SongsLoadedEvent;
+            _moreSongsButton.interactable = true;
+        }
     }
 
 }
