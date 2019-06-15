@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
 using BeatSaverDownloader.Misc;
-using BeatSaverDownloader.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using BS_Utils.Gameplay;
@@ -29,20 +28,13 @@ namespace BeatSaverDownloader
             instance = this;
             PluginConfig.LoadConfig();
             Sprites.ConvertToSprites();
-            PlaylistsCollection.ReloadPlaylists();
-            SongCore.Loader.SongsLoadedEvent += SongCore_SongsLoadedEvent;
-            
-            BSEvents.OnLoad();
-            BSEvents.menuSceneLoadedFresh += OnMenuSceneLoadedFresh;
+
         }
 
         private void OnMenuSceneLoadedFresh()
         {
             try
             {
-                PluginUI.Instance.OnLoad();
-                VotingUI.Instance.OnLoad();
-                SongListTweaks.Instance.OnLoad();
 
                 GetUserInfo.GetUserName();
             }
@@ -53,25 +45,10 @@ namespace BeatSaverDownloader
         }
 
         
-        public void SongCore_SongsLoadedEvent(SongCore.Loader sender, Dictionary<string, CustomPreviewBeatmapLevel> levels)
-        {
-            try
-            {
-                PlaylistsCollection.MatchSongsForAllPlaylists(true);
-            }
-            catch(Exception e)
-            {
-                Plugin.log.Critical("Unable to match songs for all playlists! Exception: "+e);
-            }
-        }
-        
 
         public void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                PlaylistsCollection.ReloadPlaylists();
-            }
+
         }
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
