@@ -15,10 +15,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
     {
 
         KEYBOARD _searchKeyboard;
-
-
         public event Action<string> searchButtonPressed;
-        public event Action backButtonPressed;
 
         private bool initialized = false;
         public override void __Activate(ActivationType activationType)
@@ -35,7 +32,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
                 _searchKeyboard.EnterPressed += delegate (string value) { searchButtonPressed?.Invoke(value); };
                 keyboardRect.localScale *= 1.6f;
                 keyboardRect.anchoredPosition = new Vector2(6, -10);
-               
+                initialized = true;
             }
            
         }

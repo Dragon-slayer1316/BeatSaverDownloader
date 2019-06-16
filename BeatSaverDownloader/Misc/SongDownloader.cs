@@ -61,7 +61,7 @@ namespace BeatSaverDownloader.Misc
         {
             songInfo.songQueueState = SongQueueState.Downloading;
 
-            if (IsSongDownloaded(songInfo))
+            if (SongCore.Collections.songWithHashPresent(songInfo.hash.ToUpper()))
             {
                 //        Plugin.log.Info("Song Already Downloaded, Skipping");
                 songInfo.downloadingProgress = 1f;
