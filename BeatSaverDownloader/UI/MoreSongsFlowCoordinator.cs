@@ -61,12 +61,12 @@ namespace BeatSaverDownloader.UI
                 _moreSongsListViewController.pageUpPressed += _moreSongsListViewController_pageUpPressed;
 
 
-                _moreSongsListViewController.SortByTop += () => { currentSortMode = "hot"; currentPage = 0; StartCoroutine(GetPage(currentPage, currentSortMode)); currentSearchRequest = ""; };
-                _moreSongsListViewController.SortByNew += () => { currentSortMode = "latest"; currentPage = 0; StartCoroutine(GetPage(currentPage, currentSortMode)); currentSearchRequest = ""; };
+                _moreSongsListViewController.SortByTop += () => { ResetDetailView();  currentSortMode = "hot"; currentPage = 0; StartCoroutine(GetPage(currentPage, currentSortMode)); currentSearchRequest = ""; };
+                _moreSongsListViewController.SortByNew += () => { ResetDetailView();  currentSortMode = "latest"; currentPage = 0; StartCoroutine(GetPage(currentPage, currentSortMode)); currentSearchRequest = ""; };
 
-                _moreSongsListViewController.SortByNewlyRanked += () => { currentScoreSaberSortMode = 1; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
-                _moreSongsListViewController.SortByTrending += () => { currentScoreSaberSortMode = 0; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
-                _moreSongsListViewController.SortByDifficulty += () => { currentScoreSaberSortMode = 3; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
+                _moreSongsListViewController.SortByNewlyRanked += () => { ResetDetailView();  currentScoreSaberSortMode = 1; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
+                _moreSongsListViewController.SortByTrending += () => { ResetDetailView();  currentScoreSaberSortMode = 0; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
+                _moreSongsListViewController.SortByDifficulty += () => { ResetDetailView();  currentScoreSaberSortMode = 3; currentPage = 0; StartCoroutine(GetPageScoreSaber(currentPage, currentScoreSaberSortMode)); };
 
                 _moreSongsListViewController.SearchButtonPressed += _moreSongsListViewController_searchButtonPressed;
                 _moreSongsListViewController.didSelectRow += _moreSongsListViewController_didSelectRow;
@@ -217,13 +217,24 @@ namespace BeatSaverDownloader.UI
             
             DismissViewController(_searchViewController);
             _moreSongsListViewController.SelectTopButtons(TopButtonsState.Select);
-
+            ResetDetailView();
+            if (!string.IsNullOrWhiteSpace(obj))
+            {
             currentPage = 0;
             currentSearchRequest = obj;
             StartCoroutine(GetSearchResults(currentPage, currentSearchRequest));
-            
+            }
         }
 
+        private void ResetDetailView()
+        {
+            if (_songDetailViewController.isInViewControllerHierarchy)
+            {
+                PopViewControllerFromNavigationController(_moreSongsNavigationController);
+                _moreSongsListViewController.ResetOffset();
+            }
+
+        }
         private void _searchViewController_backButtonPressed()
         {
             

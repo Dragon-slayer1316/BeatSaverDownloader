@@ -309,5 +309,19 @@ namespace BeatSaverDownloader.UI.ViewControllers
             }
             _lastSelectedRow = -1;
         }
+
+        internal void ResetOffset()
+        {
+            if (_fixedOffset)
+            {
+                ApplyButtonOffset(_topButton);
+                ApplyButtonOffset(_newButton);
+                ApplyButtonOffset(_trendingButton);
+                ApplyButtonOffset(_newlyRankedButton);
+                ApplyButtonOffset(_difficultyButton);
+                _fixedOffset = false;
+            }
+            _lastSelectedRow = -1;
+        }
     }
 }
