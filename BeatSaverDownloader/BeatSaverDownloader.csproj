@@ -115,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\SongDownloader.cs" />
     <Compile Include="Misc\Sprites.cs" />
     <Compile Include="Misc\BeatSaverAPIResult.cs" />
     <Compile Include="Misc\FileOperationAPIWrapper.cs" />

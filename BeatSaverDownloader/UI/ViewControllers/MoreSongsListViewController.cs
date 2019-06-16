@@ -143,7 +143,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
             _tableCell.SetPrivateField("_bought", true);
 
             StartCoroutine(LoadScripts.LoadSpriteCoroutine(songsList[row].coverURL, (cover) => { _tableCell.GetPrivateField<UnityEngine.UI.RawImage>("_coverRawImage").texture = cover.texture; }));
-            bool alreadyDownloaded = false;//SongDownloader.Instance.IsSongDownloaded(songsList[row]);
+            bool alreadyDownloaded = SongDownloader.Instance.IsSongDownloaded(songsList[row]);
 
             if (alreadyDownloaded)
             {

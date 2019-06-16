@@ -30,8 +30,8 @@ namespace BeatSaverDownloader.UI.ViewControllers
             if (!initialized && activationType == ActivationType.AddedToHierarchy)
             {
                 (_pageUpButton.transform as RectTransform).anchoredPosition = new Vector2(0, 25);
-                //           SongDownloader.Instance.songDownloaded -= SongDownloaded;
-                //           SongDownloader.Instance.songDownloaded += SongDownloaded;
+                           SongDownloader.Instance.songDownloaded -= SongDownloaded;
+                           SongDownloader.Instance.songDownloaded += SongDownloaded;
                 _songListTableCellInstance = Resources.FindObjectsOfTypeAll<LevelListTableCell>().First(x => (x.name == "LevelListTableCell"));
 
                 RectTransform viewControllersContainer = FindObjectsOfType<RectTransform>().First(x => x.name == "ViewControllers");
@@ -71,7 +71,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
         protected override void DidDeactivate(DeactivationType type)
         {
-    //        SongDownloader.Instance.songDownloaded -= SongDownloaded;
+            SongDownloader.Instance.songDownloaded -= SongDownloaded;
         }
 
         public void EnqueueSong(Song song, bool startDownload = true)
@@ -114,9 +114,8 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
         IEnumerator DownloadSong(Song song)
         {
-            yield break;
-       //     yield return SongDownloader.Instance.DownloadSongCoroutine(song);
-      //      Refresh();
+            yield return SongDownloader.Instance.DownloadSongCoroutine(song);
+            Refresh();
         }
 
         private void SongDownloaded(Song obj)
@@ -162,8 +161,8 @@ namespace BeatSaverDownloader.UI.ViewControllers
                 SongCore.Loader.Instance.RefreshSongs(false);
             }
 
-            //            if (queuedSongs.Count(x => x.songQueueState == SongQueueState.Downloading) < PluginConfig.maxSimultaneousDownloads && queuedSongs.Any(x => x.songQueueState == SongQueueState.Queued))
-            //                StartCoroutine(DownloadSong(queuedSongs.First(x => x.songQueueState == SongQueueState.Queued)));
+                        if (queuedSongs.Count(x => x.songQueueState == SongQueueState.Downloading) < PluginConfig.maxSimultaneousDownloads && queuedSongs.Any(x => x.songQueueState == SongQueueState.Queued))
+                            StartCoroutine(DownloadSong(queuedSongs.First(x => x.songQueueState == SongQueueState.Queued)));
         }
         public override float CellSize()
         {

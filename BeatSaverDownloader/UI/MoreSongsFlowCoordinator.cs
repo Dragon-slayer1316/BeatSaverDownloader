@@ -33,7 +33,6 @@ namespace BeatSaverDownloader.UI
 
         private Song _lastSelectedSong;
 
-        private Song _lastDeletedSong;
 
         public void Awake()
         {
@@ -46,7 +45,6 @@ namespace BeatSaverDownloader.UI
                 Destroy(_songDetailGameObject.GetComponent<StandardLevelDetailViewController>());
                 _songDetailViewController = _songDetailGameObject.AddComponent<SongDetailViewController>();
                 _songDetailViewController.downloadButtonPressed += _songDetailViewController_downloadButtonPressed;
-     //           _songDetailViewController.favoriteButtonPressed += _songDetailViewController_favoriteButtonPressed;
             }
         }
 
@@ -80,8 +78,8 @@ namespace BeatSaverDownloader.UI
                 _simpleDialog = Instantiate(_simpleDialog.gameObject, _simpleDialog.transform.parent).GetComponent<SimpleDialogPromptViewController>();
             }
 
-     //       SongDownloader.Instance.songDownloaded -= SongDownloader_songDownloaded;
-     //       SongDownloader.Instance.songDownloaded += SongDownloader_songDownloaded;
+            SongDownloader.Instance.songDownloaded -= SongDownloader_songDownloaded;
+            SongDownloader.Instance.songDownloaded += SongDownloader_songDownloaded;
 
             SetViewControllersToNavigationConctroller(_moreSongsNavigationController, new VRUIViewController[]
             {
@@ -116,7 +114,7 @@ namespace BeatSaverDownloader.UI
             if (deactivationType == DeactivationType.RemovedFromHierarchy)
             {
                 PopViewControllerFromNavigationController(_moreSongsNavigationController);
-        //        SongDownloader.Instance.songDownloaded -= SongDownloader_songDownloaded;
+                SongDownloader.Instance.songDownloaded -= SongDownloader_songDownloaded;
             }
         }
 
@@ -132,7 +130,7 @@ namespace BeatSaverDownloader.UI
 
         private void _songDetailViewController_downloadButtonPressed(Song song)
         {
-            /*
+            
             if (!SongDownloader.Instance.IsSongDownloaded(song))
             {
                 _downloadQueueViewController.EnqueueSong(song, true);
@@ -145,18 +143,16 @@ namespace BeatSaverDownloader.UI
                     {
                         DismissViewController(_simpleDialog, null, false);
                         if (selectedButton == 0)
-                            DeleteSong(_lastDeletedSong);
-                        _lastDeletedSong = null;
+                            DeleteSong(_lastSelectedSong);
                     });
-                _lastDeletedSong = song;
                 PresentViewController(_simpleDialog, null, false);
             }
-            */
+            
         }
 
         private void DeleteSong(Song song)
         {
-      //      SongDownloader.Instance.DeleteSong(song);
+            SongDownloader.Instance.DeleteSong(song);
             _songDetailViewController.SetDownloadState(DownloadState.NotDownloaded);
             _moreSongsListViewController.Refresh();
         }

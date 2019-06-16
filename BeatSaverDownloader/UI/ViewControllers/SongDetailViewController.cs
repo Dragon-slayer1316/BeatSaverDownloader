@@ -17,7 +17,6 @@ namespace BeatSaverDownloader.UI.ViewControllers
     class SongDetailViewController : VRUIViewController
     {
         public event Action<Song> downloadButtonPressed;
-        public event Action<Song> favoriteButtonPressed;
 
         private Song _currentSong;
 
@@ -183,7 +182,7 @@ namespace BeatSaverDownloader.UI.ViewControllers
 
             StartCoroutine(LoadScripts.LoadSpriteCoroutine(_currentSong.coverURL, (cover) => { coverImage.texture = cover.texture; }));
 
-//            SetDownloadState((SongDownloader.Instance.IsSongDownloaded(_currentSong) ? DownloadState.Downloaded : (sender.IsDownloadingSong(_currentSong) ? DownloadState.Downloading : DownloadState.NotDownloaded)));
+            SetDownloadState((SongDownloader.Instance.IsSongDownloaded(_currentSong) ? DownloadState.Downloaded : (sender.IsDownloadingSong(_currentSong) ? DownloadState.Downloading : DownloadState.NotDownloaded)));
         }
 
 
