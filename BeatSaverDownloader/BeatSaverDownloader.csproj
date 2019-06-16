@@ -127,9 +127,11 @@
     <Compile Include="UI\MoreSongsFlowCoordinator.cs" />
     <Compile Include="UI\PluginUI.cs" />
     <Compile Include="UI\UIElements\DownloadQueueTableCell.cs" />
+    <Compile Include="UI\UIElements\Keyboard.cs" />
     <Compile Include="UI\UIElements\TextMeshProHyperlinkHandler.cs" />
     <Compile Include="UI\ViewControllers\BackButtonNavigationController.cs" />
     <Compile Include="UI\ViewControllers\DownloadQueueViewController.cs" />
+    <Compile Include="UI\ViewControllers\SearchKeyboardViewController.cs" />
     <Compile Include="UI\ViewControllers\SongDescriptionViewController.cs" />
     <Compile Include="UI\ViewControllers\SongDetailViewController.cs" />
     <Compile Include="UI\ViewControllers\MoreSongsListViewController.cs" />

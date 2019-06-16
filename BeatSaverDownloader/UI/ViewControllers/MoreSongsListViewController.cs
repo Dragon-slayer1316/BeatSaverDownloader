@@ -44,10 +44,10 @@ namespace BeatSaverDownloader.UI.ViewControllers
         private Button _newlyRankedButton;
         private Button _difficultyButton;
 
-        private bool initialized = false;
-
         private float _offset = 25f;
         private bool _fixedOffset;
+
+        private bool initialized = false;
         public override void __Activate(ActivationType activationType)
         {
             base.__Activate(activationType);

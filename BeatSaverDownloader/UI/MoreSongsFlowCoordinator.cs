@@ -18,7 +18,7 @@ namespace BeatSaverDownloader.UI
         private BackButtonNavigationController _moreSongsNavigationController;
         private MoreSongsListViewController _moreSongsListViewController;
         private SongDetailViewController _songDetailViewController;
-   //     private SearchKeyboardViewController _searchViewController;
+        private SearchKeyboardViewController _searchViewController;
         private DownloadQueueViewController _downloadQueueViewController;
         private SongDescriptionViewController _descriptionViewController;
         private SimpleDialogPromptViewController _simpleDialog;
@@ -200,7 +200,7 @@ namespace BeatSaverDownloader.UI
 
         private void _moreSongsListViewController_searchButtonPressed()
         {
-            /*
+            
             if (_searchViewController == null)
             {
                 _searchViewController = BeatSaberUI.CreateViewController<SearchKeyboardViewController>();
@@ -209,27 +209,27 @@ namespace BeatSaverDownloader.UI
             }
 
             PresentViewController(_searchViewController);
-            */
+            
         }
 
         private void _searchViewController_searchButtonPressed(string obj)
         {
-            /*
+            
             DismissViewController(_searchViewController);
             _moreSongsListViewController.SelectTopButtons(TopButtonsState.Select);
 
             currentPage = 0;
             currentSearchRequest = obj;
             StartCoroutine(GetSearchResults(currentPage, currentSearchRequest));
-            */
+            
         }
 
         private void _searchViewController_backButtonPressed()
         {
-            /*
+            
             DismissViewController(_searchViewController);
             _moreSongsListViewController.SelectTopButtons(TopButtonsState.Select);
-            */
+            
         }
 
         private void _moreSongsListViewController_pageDownPressed()
